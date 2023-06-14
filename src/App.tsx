@@ -8,60 +8,43 @@ import NewCreate from './components/new-create';
 import Menu from './components/menu';
 import { Header } from '@rneui/themed';
 
-export interface Task {
-  title: string;
-  description: string;
-  id: number;
-  done: boolean;
+const App = () => {
+  return (
+    <Provider store={store}>
+      <Component/>
+    </Provider>
+  )
 }
 
-export const taskItems: Task[] = [
-    {
-    title: "タイトル3",
-    description: "説明3",
-    id: 3,
-    done: false,
-  },
-  {
-    title: "タイトル2",
-    description: "説明2",
-    id: 2,
-    done: false,
-  },
-  {
-    title: "タイトル1",
-    description: "説明1",
-    id: 1,
-    done: false,
-  },
-] as Task[]
-
-const App = () => {
-  // const {taskItems} = useSelector((store: RootState) => store.task)
+const Component = () => {
+  const {taskItems} = useSelector((store: RootState) => store.task)
 
   return (
-    <View style={styles.container}>
-      {/* メニューボタン */}
-      <Header rightComponent={<Menu/>} placement='right' style={styles.headerContainer}/>
+      <View style={styles.container}>
+        {/* メニューボタン */}
+        <Header rightComponent={<Menu/>} placement='right' style={styles.headerContainer}/>
 
-      {/* タスク一覧表示 */}
-      <View style={styles.taskContainer}>
-        <View>
-          <FlatList data={taskItems} renderItem={({item}) => {return(
-            <TaskItem
-            title={item.title}
-            description={item.description}
-            id={item.id}
-            done={item.done} />)}}/>
+        {/* タスク一覧表示 */}
+        <View style={styles.taskContainer}>
+          <View>
+            <FlatList data={taskItems} renderItem={({item}) => {
+              return(
+                <TaskItem
+                title={item.title}
+                description={item.description}
+                id={item.id}
+                done={item.done} />
+              )}}
+            />
+          </View>
+          <StatusBar style="auto" />
         </View>
-        <StatusBar style="auto" />
-      </View>
 
-      {/* 新規作成ボタン */}
-      <View style={styles.newCreateArea}>
-        <NewCreate/>
+        {/* 新規作成ボタン */}
+        <View style={styles.newCreateArea}>
+          <NewCreate/>
+        </View>
       </View>
-    </View>
   );
 }
 
@@ -87,6 +70,6 @@ const styles = StyleSheet.create({
 
 });
 
-export default App
+// export default App
 
 registerRootComponent(App);

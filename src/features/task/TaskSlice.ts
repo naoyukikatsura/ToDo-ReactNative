@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface Task {
   title: string;
@@ -32,7 +32,18 @@ export const taskItems: Task[] = [
 const taskSlice = createSlice({
   name: 'task',
   initialState: {taskItems},
-  reducers: {}
+  reducers: {
+    createTaskItem: (state, action: PayloadAction<number>) => {
+      const newId = action.payload + 1;
+      const newTaskItem: Task = {
+        title: "",
+        description: "",
+        id: newId,
+        done: false,
+      };
+      state.taskItems.unshift(newTaskItem);
+    },
+  }
 })
-
+export const { createTaskItem } = taskSlice.actions
 export default taskSlice.reducer;
