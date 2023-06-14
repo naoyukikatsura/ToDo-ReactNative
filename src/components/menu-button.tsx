@@ -1,11 +1,16 @@
 import { Pressable, StyleSheet, View } from "react-native"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useDispatch } from "react-redux";
+import { useCallback } from "react";
+import { toggleMenu } from "../features/menu/MenuSlice";
 
-const Menu = () => {
-  const handleMenuPress = () => {
-    alert('pressed')
+const MenuButton = () => {
+  const dispatch = useDispatch();
 
-  }
+  const handleMenuPress = useCallback(() => {
+    dispatch(toggleMenu());
+  }, [dispatch]);
+
 
   return(
     <View>
@@ -23,4 +28,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Menu
+export default MenuButton

@@ -1,14 +1,23 @@
 import { Pressable, StyleSheet, Text, View } from "react-native"
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { createTaskItem } from "../features/task/TaskSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 
 
 interface NewCreateProps {
-  onPress: () => void
+  id: number
 }
 
-const NewCreate = () => {
+const CreateTask = ({id}: NewCreateProps) => {
+  const dispatch = useDispatch()
+  const { taskItems } = useSelector((store: RootState) => store.task);
+
   const handleCreatePress = () => {
-    alert('pressed')
+    if(taskItems[0].title === '') {
+      return
+    }
+    dispatch(createTaskItem(id))
   }
 
   return (
@@ -43,4 +52,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default NewCreate
+export default CreateTask

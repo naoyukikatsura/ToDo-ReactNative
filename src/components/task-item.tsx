@@ -34,7 +34,7 @@ const TaskItem = ({title, description, id, done}: Task) => {
 const styles = StyleSheet.create({
   taskContainer: {
     flexDirection: 'row', // 横並びにできる
-    marginBottom: 15
+    width: '100%',
   },
   checkboxContainer: {
     alignItems: 'center'

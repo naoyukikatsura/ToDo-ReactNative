@@ -2,11 +2,14 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import TaskItem from './components/task-item';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store, RootState } from './store';
-import NewCreate from './components/new-create';
-import Menu from './components/menu';
+import CreateTask from './components/create-task';
+import MenuButton from './components/menu-button';
 import { Header } from '@rneui/themed';
+import MenuList from './components/menu-list';
+import { RefObject, useCallback, useEffect, useRef } from 'react';
+
 
 const App = () => {
   return (
@@ -17,12 +20,22 @@ const App = () => {
 }
 
 const Component = () => {
+  const dispatch = useDispatch();
   const {taskItems} = useSelector((store: RootState) => store.task)
+  const { isOpen } = useSelector((state: RootState) => state.menu);
+
+  const menuRef: RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (menuRef.current) isOpen && menuRef.current.focus();
+  }, [isOpen]);
 
   return (
       <View style={styles.container}>
         {/* メニューボタン */}
-        <Header rightComponent={<Menu/>} placement='right' style={styles.headerContainer}/>
+        <Header rightComponent={<MenuButton/>} placement='right' style={styles.headerContainer}/>
+        {/* isOpenがtrueのときだけメニューリストを表示する */}
+        {isOpen ? (<MenuList/>) : null}
 
         {/* タスク一覧表示 */}
         <View style={styles.taskContainer}>
@@ -42,7 +55,7 @@ const Component = () => {
 
         {/* 新規作成ボタン */}
         <View style={styles.newCreateArea}>
-          <NewCreate/>
+          <CreateTask id={taskItems[0].id}/>
         </View>
       </View>
   );
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   taskContainer: {
-    marginTop: 100
+    marginTop: 100,
   },
   newCreateArea: {
   }

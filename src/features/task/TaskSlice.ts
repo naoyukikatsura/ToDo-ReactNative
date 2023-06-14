@@ -28,11 +28,11 @@ export const taskItems: Task[] = [
   },
 ] as Task[]
 
-
 const taskSlice = createSlice({
   name: 'task',
   initialState: {taskItems},
   reducers: {
+    // 新規ボタンタップで新規タスクを追加する
     createTaskItem: (state, action: PayloadAction<number>) => {
       const newId = action.payload + 1;
       const newTaskItem: Task = {
