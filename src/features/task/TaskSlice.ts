@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
 export interface Task {
   title: string;
   description: string;
@@ -43,7 +42,14 @@ const taskSlice = createSlice({
       };
       state.taskItems.unshift(newTaskItem);
     },
+
+    toggleItem: (state, action: PayloadAction<number>) => {
+      const itemId = action.payload;
+      state.taskItems = state.taskItems.map((item) => item.id === itemId ? { ...item, done: !item.done} : item)
+
+    },
   }
 })
-export const { createTaskItem } = taskSlice.actions
+
+export const { createTaskItem, toggleItem } = taskSlice.actions
 export default taskSlice.reducer;
